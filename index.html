@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html class="dark" lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Gawrisch | KI-Beratung &amp; Digitale Transformation</title>
+    <meta name="description" content="Praxisnahe KI-Expertise mit ChatGPT, Gemini, Claude und Copilot. Intelligente Automatisierung und Optimierung f&uuml;r den Mittelstand." />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-bright": "#31394d",
+                        "tertiary-container": "#ca8100",
+                        "primary-fixed": "#d8e2ff",
+                        "on-tertiary": "#472a00",
+                        "outline-variant": "#424754",
+                        "on-primary-fixed": "#001a42",
+                        "on-primary-container": "#00285d",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#b1c6f9",
+                        "surface-dim": "#0b1326",
+                        "on-primary": "#002e6a",
+                        "on-secondary-fixed-variant": "#304671",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "secondary": "#b1c6f9",
+                        "on-primary-fixed-variant": "#004395",
+                        "primary-container": "#4d8eff",
+                        "on-surface": "#dae2fd",
+                        "surface-container-highest": "#2d3449",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-tint": "#adc6ff",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-background": "#dae2fd",
+                        "surface-container-high": "#222a3d",
+                        "tertiary": "#ffb95f",
+                        "surface": "#0b1326",
+                        "surface-variant": "#2d3449",
+                        "on-secondary-fixed": "#001a42",
+                        "primary": "#adc6ff",
+                        "surface-container": "#171f33",
+                        "on-error": "#690005",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#005ac2",
+                        "on-surface-variant": "#c2c6d6",
+                        "on-secondary": "#182f59",
+                        "error-container": "#93000a",
+                        "background": "#0b1326",
+                        "surface-container-lowest": "#060e20",
+                        "on-secondary-container": "#9fb5e7",
+                        "surface-container-low": "#131b2e",
+                        "outline": "#8c909f",
+                        "secondary-container": "#304671",
+                        "inverse-surface": "#dae2fd",
+                        "inverse-on-surface": "#283044",
+                        "on-tertiary-container": "#3e2400"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0b1326;
+            color: #dae2fd;
+        }
+
+        .glass-panel {
+            background: rgba(49, 57, 77, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 20px rgba(173, 198, 255, 0.3);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #4d8eff 0%, #adc6ff 100%);
+        }
+
+        canvas#shader-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .mobile-menu.open {
+            max-height: 300px;
+        }
+    </style>
+</head>
+
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-[#131b2e]/80 backdrop-blur-md shadow-2xl shadow-[#060e20]/50 border-b border-outline-variant/10">
+        <nav class="flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
+            <a href="#" class="text-2xl font-black tracking-tighter text-[#dae2fd]">
+                gawrisch<span class="text-primary">.info</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-manrope text-sm font-medium tracking-tight transition-all duration-300 ease-out"
+                    href="#services">Services</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-manrope text-sm font-medium tracking-tight transition-all duration-300 ease-out"
+                    href="#techstack">KI-Tools</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-manrope text-sm font-medium tracking-tight transition-all duration-300 ease-out"
+                    href="#cases">Referenzen</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-manrope text-sm font-medium tracking-tight transition-all duration-300 ease-out"
+                    href="#contact">Kontakt</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#contact"
+                    class="hidden md:inline-block bg-primary-container text-on-primary-container px-6 py-2.5 rounded-full font-bold text-sm hover:scale-95 active:scale-90 transition-transform">
+                    Jetzt starten
+                </a>
+                <!-- Mobile Hamburger -->
+                <button id="menu-toggle" class="md:hidden text-on-surface p-2" aria-label="Menu">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-surface-container-low/95 backdrop-blur-md border-t border-outline-variant/10">
+            <div class="flex flex-col px-6 py-4 gap-4">
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-medium text-sm py-2" href="#services">Services</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-medium text-sm py-2" href="#techstack">KI-Tools</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-medium text-sm py-2" href="#cases">Referenzen</a>
+                <a class="text-[#dae2fd]/70 hover:text-[#dae2fd] font-medium text-sm py-2" href="#contact">Kontakt</a>
+                <a href="#contact"
+                    class="bg-primary-container text-on-primary-container px-6 py-2.5 rounded-full font-bold text-sm text-center hover:scale-95 active:scale-90 transition-transform">
+                    Jetzt starten
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-0">
+
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center overflow-hidden px-6 md:px-8 pt-20">
+            <!-- ShaderBackground -->
+            <div class="absolute inset-0 z-0">
+                <canvas class="opacity-60" id="shader-canvas"></canvas>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-surface/40 to-surface"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="space-y-8 fade-in">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high/60 border border-outline-variant/20 backdrop-blur-sm">
+                        <span
+                            class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(173,198,255,0.8)]"></span>
+                        <span class="text-xs font-bold uppercase tracking-widest text-primary">KI-Beratung &
+                            Integration</span>
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tighter text-glow">
+                        Intelligente KI-Integration f&uuml;r Ihr Unternehmen
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                        Praxisnahe Expertise mit ChatGPT, Gemini, Claude und Copilot zur Automatisierung und
+                        Optimierung Ihrer Gesch&auml;ftsprozesse.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact"
+                            class="btn-gradient text-on-primary-container px-8 py-4 rounded-xl font-bold text-base md:text-lg hover:scale-95 active:scale-90 transition-transform shadow-lg shadow-primary-container/20">
+                            Kostenlose Erstberatung
+                        </a>
+                        <a href="#services"
+                            class="bg-surface-container-high/80 text-on-surface px-8 py-4 rounded-xl font-bold text-base md:text-lg hover:bg-surface-bright transition-all border border-outline-variant/30 backdrop-blur-sm">
+                            Mehr erfahren
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative group hidden lg:block fade-in">
+                    <div
+                        class="absolute -inset-4 bg-primary/10 rounded-xl blur-3xl group-hover:bg-primary/20 transition-all">
+                    </div>
+                    <div class="relative glass-panel rounded-xl overflow-hidden border border-outline-variant/30 p-2">
+                        <img alt="Professioneller Arbeitsplatz mit modernster Technologie"
+                            class="rounded-lg w-full h-[500px] object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0a1RvGEPm_7MYTXY8OD-xQt6jbqnNlxajCpKekxvoh5i7ewQ1YGcRrF1itDm0OW9HqB3z2DPJhbhACEiZT8Uap3xNy47bM6nWmVvSv1C5DPMJcylctDztzOdYsfIggGwE63ZPGaWFglIbj_kKhajxQzmw1eIrLieYMkL5d-gBOir24xZN9UM5HWp0Z1eKE7V4BOhQLpu4xY9yfuIiRfRGNxG2lD0HxTqQRsHCM89Ls6StA9MSIcuQLJ5tHY6QKH2J0kSwXB17NA" />
+                        <div class="absolute bottom-6 left-6 right-6 p-6 glass-panel rounded-lg border border-white/10">
+                            <div class="flex items-center gap-4">
+                                <div class="flex -space-x-3">
+                                    <div
+                                        class="w-10 h-10 rounded-full border-2 border-surface bg-primary-container flex items-center justify-center text-xs font-bold">
+                                        HG</div>
+                                    <div
+                                        class="w-10 h-10 rounded-full border-2 border-surface bg-tertiary-container flex items-center justify-center text-xs font-bold">
+                                        KI</div>
+                                </div>
+                                <div class="text-sm font-medium">Bereits +50 Unternehmen erfolgreich digitalisiert.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="py-24 md:py-32 px-6 md:px-8 max-w-7xl mx-auto" id="services">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-8 fade-in">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Unsere Leistungen</h2>
+                    <p class="text-on-surface-variant text-lg">Ma&szlig;geschneiderte KI-L&ouml;sungen f&uuml;r Ihre
+                        individuellen Gesch&auml;ftsanforderungen.</p>
+                </div>
+                <div class="h-px flex-grow bg-outline-variant/20 mx-8 hidden md:block mb-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary">psychology</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">KI-Strategieberatung</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">Analyse Ihrer Gesch&auml;ftsprozesse und
+                        Entwicklung einer ma&szlig;geschneiderten KI-Roadmap mit messbarem ROI.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-tertiary">integration_instructions</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Workflow-Automatisierung</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">Integration von KI-Tools in bestehende
+                        Arbeitsabl&auml;ufe zur Steigerung der Produktivit&auml;t und Effizienz.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary">school</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Mitarbeiterschulungen</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">Praxisnahe Workshops und Trainings, damit
+                        Ihr Team KI-Tools sicher und effektiv einsetzen kann.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-tertiary">build</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Custom GPT-Entwicklung</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">Entwicklung individueller KI-Assistenten
+                        und Chatbots, zugeschnitten auf Ihre Branche und Prozesse.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary">query_stats</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Datenanalyse &amp; Reporting</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">KI-gest&uuml;tzte Auswertung Ihrer
+                        Unternehmensdaten f&uuml;r fundierte Entscheidungen und bessere Insights.</p>
+                </div>
+                <!-- Service 6 -->
+                <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                    <div
+                        class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-tertiary">security</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">KI-Governance &amp; Compliance</h3>
+                    <p class="text-on-surface-variant text-sm leading-relaxed">Sicherer und DSGVO-konformer Einsatz von
+                        KI-Technologien mit klaren Richtlinien und Prozessen.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section class="py-24 md:py-32 bg-surface-container-lowest" id="techstack">
+            <div class="max-w-7xl mx-auto px-6 md:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-8 fade-in">
+                    <div class="max-w-2xl">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Unser Tech Stack</h2>
+                        <p class="text-on-surface-variant text-lg">Wir w&auml;hlen die leistungsf&auml;higsten KI-Modelle
+                            f&uuml;r Ihre spezifischen Anforderungen.</p>
+                    </div>
+                    <div class="h-px flex-grow bg-outline-variant/20 mx-8 hidden md:block mb-4"></div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- ChatGPT -->
+                    <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-primary">smart_toy</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">ChatGPT</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Perfekt f&uuml;r kreative
+                            Texterstellung, Code-Review und komplexe Datenanalysen in Echtzeit.</p>
+                    </div>
+                    <!-- Gemini -->
+                    <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-tertiary">hub</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Gemini</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Herausragend in der Verarbeitung
+                            multimodaler Daten und nahtlose Google Workspace Integration.</p>
+                    </div>
+                    <!-- Claude -->
+                    <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-primary">neurology</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Claude</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Bekannt f&uuml;r pr&auml;zises
+                            Reasoning und Sicherheit. Ideal f&uuml;r juristische und formelle Dokumentation.</p>
+                    </div>
+                    <!-- Copilot -->
+                    <div class="p-8 bg-surface-container-low rounded-xl border border-outline-variant/10 hover:bg-surface-container-high transition-all duration-300 group fade-in">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-tertiary">terminal</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Copilot</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Maximale Produktivit&auml;t innerhalb
+                            der vertrauten Office-Umgebung f&uuml;r alle Mitarbeiter.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-24 md:py-32 px-6 md:px-8 max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div class="text-center p-8 fade-in">
+                    <div class="text-4xl md:text-5xl font-extrabold text-primary mb-2">50+</div>
+                    <div class="text-on-surface-variant text-sm font-medium">Unternehmen beraten</div>
+                </div>
+                <div class="text-center p-8 fade-in">
+                    <div class="text-4xl md:text-5xl font-extrabold text-tertiary mb-2">40%</div>
+                    <div class="text-on-surface-variant text-sm font-medium">Effizienzsteigerung</div>
+                </div>
+                <div class="text-center p-8 fade-in">
+                    <div class="text-4xl md:text-5xl font-extrabold text-primary mb-2">200+</div>
+                    <div class="text-on-surface-variant text-sm font-medium">Workflows automatisiert</div>
+                </div>
+                <div class="text-center p-8 fade-in">
+                    <div class="text-4xl md:text-5xl font-extrabold text-tertiary mb-2">98%</div>
+                    <div class="text-on-surface-variant text-sm font-medium">Kundenzufriedenheit</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study Section -->
+        <section class="py-24 md:py-32 bg-surface-container-lowest" id="cases">
+            <div class="max-w-7xl mx-auto px-6 md:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 space-y-6 fade-in">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Erfolgsgeschichten</h2>
+                        <p class="text-on-surface-variant text-lg">Wie wir reale Gesch&auml;ftsprobleme durch den
+                            gezielten Einsatz von KI-L&ouml;sungen l&ouml;sen.</p>
+                        <div class="pt-4">
+                            <a class="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all"
+                                href="#contact">
+                                Ihr Projekt besprechen
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 fade-in">
+                        <div
+                            class="relative glass-panel rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col md:flex-row shadow-2xl">
+                            <div class="md:w-1/2 aspect-square">
+                                <img alt="Professionelles Team bei der Zusammenarbeit"
+                                    class="w-full h-full object-cover"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf1V3M96HdI9SWz40tirnw1GGFNiOJH_GLMMQtJlpW-d9RgHnXDfBv_VxkNpeClYejDNMboGg3D76I2N6EghZb86CsPdNdR5RDz91o6lPYZJk3yEXZUFe1jPa_sHdJVvJp9j5uweEwt5V1-MC0Dmj84aw7Sh2hdwHylrI7mTOnbWKUR8VWmcRT_89vIeq9I7XNlT1mTIl1FsKxAkOUqM6BZ8SmToyrb8o1fYtGTlI5G7WXbEjrGK4wj-cBamGd5dlZTcsK4qBnkg" />
+                            </div>
+                            <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                                <span
+                                    class="text-tertiary font-bold text-xs uppercase tracking-widest mb-2">Fertigungsindustrie</span>
+                                <h3 class="text-2xl font-bold mb-4">Mittelst&auml;ndisches Unternehmen digitalisiert
+                                </h3>
+                                <p class="text-on-surface-variant mb-6 text-sm">Automatisierung von Kernprozessen und
+                                    Steigerung der Effizienz um 40% innerhalb von nur 3 Monaten durch
+                                    ma&szlig;geschneiderte KI-Workflows.</p>
+                                <div class="flex items-center gap-4 mt-auto">
+                                    <div class="h-px bg-outline-variant/40 flex-grow"></div>
+                                    <span class="text-xs font-medium text-on-surface/50">Lesezeit: 4 Min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section class="py-24 md:py-32 px-6 md:px-8 max-w-7xl mx-auto">
+            <div class="text-center mb-16 md:mb-20 fade-in">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">So arbeiten wir zusammen</h2>
+                <p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Von der ersten Analyse bis zur
+                    erfolgreichen Implementierung &ndash; ein strukturierter Prozess f&uuml;r maximalen Erfolg.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="relative p-8 fade-in">
+                    <div
+                        class="text-6xl font-extrabold text-primary/10 absolute top-4 left-8 select-none">01</div>
+                    <div class="relative pt-12">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-primary">search</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Analyse &amp; Strategie</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Wir analysieren Ihre bestehenden
+                            Prozesse und identifizieren die gr&ouml;&szlig;ten Hebel f&uuml;r KI-Einsatz.</p>
+                    </div>
+                </div>
+                <div class="relative p-8 fade-in">
+                    <div
+                        class="text-6xl font-extrabold text-primary/10 absolute top-4 left-8 select-none">02</div>
+                    <div class="relative pt-12">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-tertiary-container/20 flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-tertiary">rocket_launch</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Implementierung</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Integration der passenden KI-Tools
+                            in Ihre bestehende Infrastruktur mit Schulung Ihres Teams.</p>
+                    </div>
+                </div>
+                <div class="relative p-8 fade-in">
+                    <div
+                        class="text-6xl font-extrabold text-primary/10 absolute top-4 left-8 select-none">03</div>
+                    <div class="relative pt-12">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-primary">trending_up</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Optimierung &amp; Skalierung</h3>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">Kontinuierliche Verbesserung und
+                            Ausweitung der KI-L&ouml;sungen auf weitere Gesch&auml;ftsbereiche.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="py-24 md:py-32 px-6 md:px-8 max-w-7xl mx-auto" id="contact">
+            <div class="glass-panel p-8 md:p-16 rounded-3xl border border-outline-variant/20 relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2">
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 relative z-10">
+                    <div class="fade-in">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-6">Bereit f&uuml;r den
+                            n&auml;chsten Schritt?</h2>
+                        <p class="text-on-surface-variant text-lg mb-10">Lassen Sie uns gemeinsam evaluieren, welche
+                            KI-Strategie f&uuml;r Ihr Unternehmen den gr&ouml;&szlig;ten ROI generiert.</p>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-primary text-sm">mail</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">E-Mail</p>
+                                    <p class="text-on-surface-variant">info@gawrisch.info</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-tertiary text-sm">language</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">Webseite</p>
+                                    <p class="text-on-surface-variant">gawrisch.info</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="#" class="space-y-4 fade-in" id="contact-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Name</label>
+                                <input
+                                    class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-3 focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none text-on-surface"
+                                    placeholder="Ihr Name" type="text" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Unternehmen</label>
+                                <input
+                                    class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-3 focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none text-on-surface"
+                                    placeholder="Firmenname" type="text" />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">E-Mail
+                                Adresse</label>
+                            <input
+                                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-3 focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none text-on-surface"
+                                placeholder="name@firma.de" type="email" required />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Nachricht</label>
+                            <textarea
+                                class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-3 focus:ring-2 focus:ring-primary/40 focus:border-primary transition-all outline-none text-on-surface"
+                                placeholder="Wie k&ouml;nnen wir Ihnen helfen?" rows="4" required></textarea>
+                        </div>
+                        <button
+                            class="w-full btn-gradient py-4 rounded-xl font-bold text-on-primary-container hover:shadow-xl hover:shadow-primary/20 transition-all active:scale-[0.98]"
+                            type="submit">
+                            Anfrage senden
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#060e20] w-full py-12 border-t border-[#222a3d]/20">
+        <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-8 max-w-7xl mx-auto gap-6">
+            <div class="text-lg font-bold text-[#dae2fd]">gawrisch<span class="text-primary">.info</span></div>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8 text-[#dae2fd]/50 font-manrope text-xs uppercase tracking-widest">
+                <a class="hover:text-blue-300 transition-colors opacity-80 hover:opacity-100"
+                    href="#">Datenschutz</a>
+                <a class="hover:text-blue-300 transition-colors opacity-80 hover:opacity-100"
+                    href="#">Impressum</a>
+                <a class="hover:text-blue-300 transition-colors opacity-80 hover:opacity-100"
+                    href="#">AGB</a>
+            </div>
+            <div class="text-[#dae2fd]/50 font-manrope text-xs uppercase tracking-widest text-center md:text-right">
+                &copy; 2025 gawrisch.info &ndash; Alle Rechte vorbehalten.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shader Background
+        const canvas = document.getElementById('shader-canvas');
+        const gl = canvas.getContext('webgl');
+        if (gl) {
+            const vertexSource = `
+                attribute vec2 position;
+                void main() { gl_Position = vec4(position, 0.0, 1.0); }
+            `;
+            const fragmentSource = `
+                precision highp float;
+                uniform float time;
+                uniform vec2 resolution;
+                void main() {
+                    vec2 uv = gl_FragCoord.xy / resolution.xy;
+                    float color = 0.0;
+                    color += sin(uv.x * 10.0 + time) * 0.1;
+                    color += sin(uv.y * 8.0 + time * 1.2) * 0.1;
+                    color += sin((uv.x + uv.y) * 6.0 + time * 0.8) * 0.08;
+                    vec3 baseColor = vec3(0.04, 0.07, 0.15);
+                    vec3 glowColor = vec3(0.3, 0.55, 1.0);
+                    vec3 finalColor = mix(baseColor, glowColor, color + 0.1);
+                    gl_FragColor = vec4(finalColor, 1.0);
+                }
+            `;
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                return shader;
+            }
+            const program = gl.createProgram();
+            gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vertexSource));
+            gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fragmentSource));
+            gl.linkProgram(program);
+            gl.useProgram(program);
+            const positionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+            const positionLocation = gl.getAttribLocation(program, 'position');
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+            const timeLocation = gl.getUniformLocation(program, 'time');
+            const resolutionLocation = gl.getUniformLocation(program, 'resolution');
+            function render(time) {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+                gl.uniform1f(timeLocation, time * 0.001);
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                requestAnimationFrame(render);
+            }
+            requestAnimationFrame(render);
+        }
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+        // Close menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // Scroll fade-in animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Simple form handler
+        document.getElementById('contact-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.textContent = 'Gesendet!';
+            btn.classList.add('opacity-70');
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = 'Anfrage senden';
+                btn.classList.remove('opacity-70');
+                btn.disabled = false;
+                this.reset();
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
